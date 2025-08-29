@@ -21,8 +21,8 @@ CT02: Editar centro de custo
     Acessar o centro de custos
     Editar Centro de Custo pela Posicao    1    ${nome_aleatorio}
     
-CT03: Editar centro de custo com erro
-    [Documentation]    Teste para editar um centro de custo com erro.
+CT03: Editar centro de custo em braco
+    [Documentation]    Teste para editar um centro de custo em branco.
     Selecionar cadastros
     Acessar o centro de custos
     Wait Until Element Is Visible    xpath=/html/body/div/div/div[2]/div[2]/div
