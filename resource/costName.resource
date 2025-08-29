@@ -30,9 +30,9 @@ Adiconar nome do centro de custo e salvar
 
 Selecionar centro de custo
     [Documentation]   Edita o centro de custo existente.
-    Wait Until Element Is Visible    xpath=//p[text()='Marketing']/following-sibling::div/button[text()='Editar']  
-    Click Element    xpath=//p[text()='Marketing']/following-sibling::div/button[text()='Editar']
-
+    Wait Until Element Is Visible   xpath=//*[@id="Diretoria"]
+    Click Element    xpath=//*[@id="Diretoria"]
+    Click Element    xpath=//*[@id="Diretoria"]/option[2]
 Adicionar nome na edição do centro de custo
     [Documentation]   Adiciona o nome do centro de custo no campo apropriado.
     Wait Until Element Is Visible    xpath=//*[@id="costCentername"] 
@@ -44,20 +44,12 @@ Adicionar nome na edição do centro de custo
 Editar Centro de Custo pela Posicao
     [Arguments]    ${posicao_item}    ${novo_nome}    
     [Documentation]    Edita um centro de custo pela sua posicao.
-    
-    # Clica no botão 'Editar' na posicao exata que você quer
     Wait Until Element Is Visible    xpath=(//button[text()='Editar'])[${posicao_item}] 
     Click Element    xpath=(//button[text()='Editar'])[${posicao_item}]
-
-    # Preenche o campo de nome com o valor que você passar
     Wait Until Element Is Visible    id=costCentername
     Input Text    id=costCentername    ${novo_nome}
-
-    # Clica na diretoria e seleciona a opcao fixa na posicao 2
     Click Element    id=Diretoria
     Click Element    xpath=//*[@id="Diretoria"]/option[2]
-
-    # Clica no botao 'Salvar'
     Click Button    id=save
     
     RETURN    ${novo_nome}
