@@ -9,14 +9,23 @@ ${email}      sysadmin@qacoders.com
 ${senha}      1234@Test
 
 *** Keywords ***
-Abrir Navegador e fazer login
-    [Documentation]    Abre o navegador na URL e maximiza a janela.
+Abrir Navegador
+    [Documentation]    Abre o navegador com as opções corretas.
     ${options}=    Evaluate    sys.modules['selenium.webdriver.chrome.options'].Options()    modules=sys,selenium.webdriver.chrome.options
     Call Method    ${options}    add_argument    --no-sandbox
     Call Method    ${options}    add_argument    --disable-dev-shm-usage
     
-    Open Browser        ${url}    ${browser}   options=add_argument("--no-sandbox")
+    Open Browser    ${url}    chrome    options=${options}
     Maximize Browser Window
-    Input Text          id=email    ${email}
-    Input Text          id=password    ${senha}
-    Click Button        id=login
+
+Fazer Login
+    [Documentation]    Preenche os campos de login e clica no botão.
+    Wait Until Element Is Visible    id=email
+    Input Text    id=email    ${email}
+    Input Text    id=password    ${senha}
+    Click Button    id=login
+
+Abrir Navegador e Fazer Login
+    [Documentation]    Abre o navegador e realiza o login.
+    Abrir Navegador
+    Fazer Login

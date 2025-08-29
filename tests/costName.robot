@@ -3,7 +3,7 @@ Library              SeleniumLibrary
 Library              Dialogs
 Resource             ../resource/costName.resource
 Resource             ../resource/config.resource
-Test Setup           Abrir Navegador e fazer login
+Test Setup           Abrir Navegador e Fazer Login
 Test Teardown        Close All Browsers
 
 *** Test Cases ***
