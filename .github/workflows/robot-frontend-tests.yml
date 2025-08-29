@@ -17,14 +17,13 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.10'
 
       - name: Install Dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install robotframework
-          pip install robotframework-seleniumlibrary
-          pip install webdrivermanager
+            python -m pip install --upgrade pip
+            pip install robotframework
+            pip install robotframework-seleniumlibrary
 
       - name: Run Robot Framework Tests
         run: |
