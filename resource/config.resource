@@ -12,12 +12,12 @@ ${senha}      1234@Test
 Abrir Navegador
     [Documentation]    Abre o navegador com as opções corretas.
     ${options}=    Evaluate    sys.modules['selenium.webdriver.chrome.options'].Options()    modules=sys,selenium.webdriver.chrome.options
+    Call Method    ${options}    add_argument    --headless
     Call Method    ${options}    add_argument    --no-sandbox
     Call Method    ${options}    add_argument    --disable-dev-shm-usage
     
     Open Browser    ${url}    chrome    options=${options}
     Maximize Browser Window
-
 Fazer Login
     [Documentation]    Preenche os campos de login e clica no botão.
     Wait Until Element Is Visible    id=email
