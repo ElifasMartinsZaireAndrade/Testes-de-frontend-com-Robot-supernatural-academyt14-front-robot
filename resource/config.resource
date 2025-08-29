@@ -11,6 +11,10 @@ ${senha}      1234@Test
 *** Keywords ***
 Abrir Navegador e fazer login
     [Documentation]    Abre o navegador na URL e maximiza a janela.
+    ${options}=    Evaluate    sys.modules['selenium.webdriver.chrome.options'].Options()    modules=sys,selenium.webdriver.chrome.options
+    Call Method    ${options}    add_argument    --no-sandbox
+    Call Method    ${options}    add_argument    --disable-dev-shm-usage
+    
     Open Browser        ${url}    ${browser}   options=add_argument("--no-sandbox")
     Maximize Browser Window
     Input Text          id=email    ${email}
