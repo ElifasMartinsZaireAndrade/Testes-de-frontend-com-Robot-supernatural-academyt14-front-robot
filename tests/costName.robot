@@ -6,12 +6,9 @@ Resource             ../resource/config.resource
 Test Setup           Abrir Navegador e fazer login
 Test Teardown        Close All Browsers
 
-
 *** Test Cases ***
-
 CT01: Realizar novo cadastro centro de custo
     [Documentation]    Teste para realizar um novo cadastro no centro de custos.
-    Pause Execution
     Selecionar cadastros
     Acessar o centro de custos
     Clicar no botão para novo cadastro

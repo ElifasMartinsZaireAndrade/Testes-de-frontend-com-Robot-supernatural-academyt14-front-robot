@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.13.2 on win32)" generated="2025-08-29T00:47:37.693305" rpa="false" schemaversion="5">
+<suite id="s1" name="costName" source="d:\Cursos\Qa.Coders\Robot Framework - FrontEnd\tests\costName.robot">
+<test id="s1-t1" name="CT01: Realizar novo cadastro centro de custo" line="10">
+<kw name="Abrir Navegador e fazer login" owner="config" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-08-29T00:47:38.024255" level="INFO">Opening browser 'chrome' to base url 'https://shogun.qacoders.dev.br/login'.</msg>
+<arg>${url}</arg>
+<arg>${browser}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-08-29T00:47:38.023989" elapsed="4.680180"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-08-29T00:47:42.705102" elapsed="0.100388"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-08-29T00:47:42.818373" level="INFO">Typing text 'sysadmin@qacoders.com' into text field 'id=email'.</msg>
+<arg>id=email</arg>
+<arg>${email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-08-29T00:47:42.810523" elapsed="0.360294"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-08-29T00:47:43.171596" level="INFO">Typing text '1234@Test' into text field 'id=password'.</msg>
+<arg>id=password</arg>
+<arg>${senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-08-29T00:47:43.171207" elapsed="0.078579"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-08-29T00:47:43.251129" level="INFO">Clicking button 'id=login'.</msg>
+<arg>id=login</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-08-29T00:47:43.250534" elapsed="0.077986"/>
+</kw>
+<doc>Abre o navegador na URL e maximiza a janela.</doc>
+<status status="PASS" start="2025-08-29T00:47:38.023412" elapsed="5.305351"/>
+</kw>
+<kw name="Pause Execution" owner="Dialogs">
+<doc>Pauses execution until user clicks ``Ok`` button.</doc>
+<status status="PASS" start="2025-08-29T00:47:43.329216" elapsed="4.126038"/>
+</kw>
+<kw name="Selecionar cadastros" owner="costName">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=//*[@id="Cadastros"]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-08-29T00:47:47.462791" elapsed="0.059923"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-08-29T00:47:47.523596" level="INFO">Clicking element 'xpath=//*[@id="Cadastros"]'.</msg>
+<arg>xpath=//*[@id="Cadastros"]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-08-29T00:47:47.523067" elapsed="0.295583"/>
+</kw>
+<doc>Clica no botão para abrir o centro de custos.</doc>
+<status status="PASS" start="2025-08-29T00:47:47.459807" elapsed="0.359232"/>
+</kw>
+<kw name="Acessar o centro de custos" owner="costName">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=//*[@id="Centro de Custo"]</arg>
+<arg>10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-08-29T00:47:47.822199" elapsed="0.021829"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-08-29T00:47:47.844902" level="INFO">Clicking element 'xpath=//*[@id="Centro de Custo"]'.</msg>
+<arg>xpath=//*[@id="Centro de Custo"]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-08-29T00:47:47.844452" elapsed="0.051875"/>
+</kw>
+<doc>Acessa a página de centro de custos.</doc>
+<status status="PASS" start="2025-08-29T00:47:47.820798" elapsed="0.075791"/>
+</kw>
+<kw name="Clicar no botão para novo cadastro" owner="costName">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=//*[@id="Novo Cadastro"]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-08-29T00:47:47.897944" elapsed="0.859090"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-08-29T00:47:48.757693" level="INFO">Clicking element 'xpath=//*[@id="Novo Cadastro"]'.</msg>
+<arg>xpath=//*[@id="Novo Cadastro"]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-08-29T00:47:48.757334" elapsed="0.076023"/>
+</kw>
+<doc>Clica no botão para criar um novo cadastro.</doc>
+<status status="PASS" start="2025-08-29T00:47:47.897211" elapsed="0.936420"/>
+</kw>
+<kw name="Adiconar nome do centro de custo e salvar" owner="costName">
+<kw name="Generate Random String" owner="String">
+<msg time="2025-08-29T00:47:48.838202" level="INFO">${nome_centro} = KGXVLJHQEX</msg>
+<var>${nome_centro}</var>
+<arg>10</arg>
+<arg>[UPPER]</arg>
+<doc>Generates a string with a desired ``length`` from the given ``chars``.</doc>
+<status status="PASS" start="2025-08-29T00:47:48.835453" elapsed="0.003163"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=//*[@id="costCentername"]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-08-29T00:47:48.839086" elapsed="0.017529"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-08-29T00:47:48.857864" level="INFO">Typing text 'KGXVLJHQEX' into text field 'xpath=//*[@id="costCentername"]'.</msg>
+<arg>xpath=//*[@id="costCentername"]</arg>
+<arg>${nome_centro}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-08-29T00:47:48.857137" elapsed="0.515693"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-08-29T00:47:49.381212" level="INFO">Clicking element 'xpath=//*[@id="Diretoria"]'.</msg>
+<arg>xpath=//*[@id="Diretoria"]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-08-29T00:47:49.377094" elapsed="0.283149"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-08-29T00:47:49.668712" level="INFO">Clicking element 'xpath=//*[@id="Diretoria"]/option[2]'.</msg>
+<arg>xpath=//*[@id="Diretoria"]/option[2]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-08-29T00:47:49.666800" elapsed="0.222960"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-08-29T00:47:49.891905" level="INFO">Clicking button 'id=save'.</msg>
+<arg>id=save</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-08-29T00:47:49.890670" elapsed="0.145939"/>
+</kw>
+<doc>Adiciona o nome do centro de custo no campo apropriado.</doc>
+<status status="PASS" start="2025-08-29T00:47:48.834269" elapsed="1.204165"/>
+</kw>
+<kw name="Close All Browsers" owner="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" start="2025-08-29T00:47:50.045077" elapsed="2.546105"/>
+</kw>
+<doc>Teste para realizar um novo cadastro no centro de custos.</doc>
+<status status="PASS" start="2025-08-29T00:47:38.022758" elapsed="14.568878"/>
+</test>
+<status status="PASS" start="2025-08-29T00:47:37.697907" elapsed="14.894864"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="costName" id="s1" pass="1" fail="0" skip="0">costName</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
