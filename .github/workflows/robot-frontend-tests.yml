@@ -28,7 +28,7 @@ jobs:
       - name: Run Robot Framework Tests
         run: |
           robot -d logs tests/
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/Testes-de-frontend-com-Robot-supernatural-academyt14-front-robot/QaCoders
 
       - name: Upload Robot Framework Results
         uses: actions/upload-artifact@v4
