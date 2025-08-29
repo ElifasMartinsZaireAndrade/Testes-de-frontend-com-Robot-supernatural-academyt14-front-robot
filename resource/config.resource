@@ -11,7 +11,7 @@ ${senha}      1234@Test
 *** Keywords ***
 Abrir Navegador e fazer login
     [Documentation]    Abre o navegador na URL e maximiza a janela.
-    Open Browser        ${url}    ${browser}
+    Open Browser        ${url}    ${browser}   options=add_argument("--no-sandbox")
     Maximize Browser Window
     Input Text          id=email    ${email}
     Input Text          id=password    ${senha}
