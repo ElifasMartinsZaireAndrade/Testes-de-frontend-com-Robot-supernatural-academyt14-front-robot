@@ -9,6 +9,7 @@ ${email}      sysadmin@qacoders.com
 ${senha}      1234@Test
 
 *** Keywords ***
+*** Keywords ***
 Abrir Navegador
     [Documentation]    Abre o navegador num estado limpo (anónimo) para evitar pop-ups.
     ${options}=    Evaluate    sys.modules['selenium.webdriver.chrome.options'].Options()    sys, selenium.webdriver
@@ -32,9 +33,10 @@ Abrir Navegador
 Adicionar Opções Headless
     [Arguments]    ${options_obj}
     Log    Executando em modo Headless
-    #Call Method    ${options_obj}    add_argument    --headless
+    Call Method    ${options_obj}    add_argument    --headless
     Call Method    ${options_obj}    add_argument    --no-sandbox
     Call Method    ${options_obj}    add_argument    --disable-dev-shm-usage
+    Call Method    ${options_obj}    add_argument    --disable-gpu
 
 Fazer Login
     [Documentation]    Preenche os campos de login e clica no botão.
