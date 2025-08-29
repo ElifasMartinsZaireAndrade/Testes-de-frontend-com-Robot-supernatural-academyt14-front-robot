@@ -1,4 +1,4 @@
-name: Frontend Robot Framework Tests
+name: Test and Deploy Frontend
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
+  # Job 1: Rodar os testes
   run-robot-tests:
     runs-on: ubuntu-latest
     
@@ -19,19 +20,72 @@ jobs:
         with:
           python-version: '3.10'
 
+      # PASSO ADICIONADO: Instalar o Google Chrome
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+
       - name: Install Dependencies
         run: |
-            python -m pip install --upgrade pip
-            pip install robotframework
-            pip install robotframework-seleniumlibrary
+          python -m pip install --upgrade pip
+          pip install robotframework
+          pip install robotframework-seleniumlibrary
 
       - name: Run Robot Framework Tests
-        run: |
-          robot -d logs tests/
-        working-directory: ${{ github.workspace }}
+        run: robot -d logs tests/
+        # A linha 'working-directory' não é necessária, o padrão já é esse.
+
+      # Este passo só executa se o teste falhar, para facilitar a análise
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-screenshots-on-failure
+          path: logs/**/*.png
 
       - name: Upload Robot Framework Results
+        # Sempre faz o upload dos logs, independentemente do resultado
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: robot-results
           path: logs
+
+  # --------------------------------------------------------------------
+
+  # Job 2: Fazer o Deploy (SÓ SE OS TESTES PASSAREM)
+  deploy-to-pages:
+    # 'needs' garante que este job só comece após 'run-robot-tests' terminar com sucesso
+    needs: run-robot-tests
+    runs-on: ubuntu-latest
+
+    # Permissões necessárias para a Action de deploy do GitHub Pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      # Exemplo: Se fosse um projeto com build (React, Vue, etc.)
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20'
+      # - run: npm install
+      # - run: npm run build
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Assumindo que seu site está na raiz do repositório.
+          # Se estiver em uma pasta como 'build' ou 'dist', altere aqui.
+          path: '.' 
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
