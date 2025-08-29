@@ -5,10 +5,15 @@ Resource   ../resource/config.resource
 
 
 *** Keywords ***
+
+Wait and Click Element
+    [Documentation]    Espera um elemento ficar clicável e clica nele, tentando novamente se o elemento ficar "stale".
+    [Arguments]    ${locator}
+    Wait Until Keyword Succeeds    10s    500ms    Click Element    ${locator}
 Selecionar cadastros
      [Documentation]   Clica no botão para abrir o centro de custos.
-     Wait Until Element Is Visible    xpath=//*[@id="Cadastros"] 
-     Click Element     xpath=//*[@id="Cadastros"]
+     Wait and Click Element    xpath=//*[@id="Cadastros"] 
+     
 Acessar o centro de custos
     [Documentation]     Acessa a página de centro de custos.
     Wait Until Element Is Visible    xpath=//*[@id="Centro de Custo"]    10s
