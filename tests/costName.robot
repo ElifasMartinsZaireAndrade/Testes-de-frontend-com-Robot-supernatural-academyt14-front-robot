@@ -27,5 +27,5 @@ CT03: Editar centro de custo com erro
     Acessar o centro de custos
     Wait Until Element Is Visible    xpath=/html/body/div/div/div[2]/div[2]/div
     Scroll Element Into View         xpath=/html/body/div/div/div[2]/div[2]/div
-    Editar Centro de Custo pela Posicao    2    ${EMPTY}
+    Editar Centro de Custo pela Posicao    1    ${EMPTY}
     Wait Until Element Contains    xpath=//p[text()='O campo diretoria é obrigatório']    O campo diretoria é obrigatório

@@ -25,7 +25,7 @@ Adiconar nome do centro de custo e salvar
     Wait Until Element Is Visible    xpath=//*[@id="costCentername"] 
     Input Text    xpath=//*[@id="costCentername"]    ${nome_centro}
     Click Element    xpath=//*[@id="Diretoria"]
-    Click Element    xpath=//*[@id="Diretoria"]/option[2]
+    Click Element    xpath=//*[@id="Diretoria"]/option[1]
     Click Button     id=save
 
 Selecionar centro de custo
