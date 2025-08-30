@@ -20,7 +20,6 @@ jobs:
         with:
           python-version: '3.10'
 
-      # PASSO ADICIONADO: Instalar o Google Chrome
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@v1
 
@@ -31,34 +30,24 @@ jobs:
           pip install robotframework-seleniumlibrary
 
       - name: Run Robot Framework Tests
-        run: robot -d logs tests/
-        # A linha 'working-directory' não é necessária, o padrão já é esse.
-
-      # Este passo só executa se o teste falhar, para facilitar a análise
-      - name: Upload screenshots on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: robot-screenshots-on-failure
-          path: logs/**/*.png
+        env:
+          HEADLESS: true
+        run: robot -d results tests/ # Mudado para a pasta 'results'
 
       - name: Upload Robot Framework Results
-        # Sempre faz o upload dos logs, independentemente do resultado
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: robot-results
-          path: logs
+          path: results # A mesma pasta 'results'
 
   # --------------------------------------------------------------------
 
   # Job 2: Fazer o Deploy (SÓ SE OS TESTES PASSAREM)
   deploy-to-pages:
-    # 'needs' garante que este job só comece após 'run-robot-tests' terminar com sucesso
     needs: run-robot-tests
     runs-on: ubuntu-latest
 
-    # Permissões necessárias para a Action de deploy do GitHub Pages
     permissions:
       contents: read
       pages: write
@@ -68,22 +57,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       
-      # Exemplo: Se fosse um projeto com build (React, Vue, etc.)
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '20'
-      # - run: npm install
-      # - run: npm run build
-      
+      # === PASSO NOVO E IMPORTANTE ===
+      # Descarrega os resultados do job anterior para a raiz do projeto
+      - name: Download test results artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: robot-results
+          # O nome "robot-results" deve ser o mesmo usado no 'upload-artifact'
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Assumindo que seu site está na raiz do repositório.
-          # Se estiver em uma pasta como 'build' ou 'dist', altere aqui.
+          # Agora, o upload incluirá os ficheiros do repositório E os resultados descarregados
           path: '.' 
           
       - name: Deploy to GitHub Pages
