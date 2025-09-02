@@ -1,29 +1,619 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Deploy dos Testes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA.Coders T14 - Dashboard de Testes de Frontend</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #2d333b; color: #adbac7; }
-        .container { text-align: center; border: 1px solid #444c56; padding: 40px; border-radius: 10px; background-color: #22272e; }
-        h1 { color: #5cd9e5; }
-        a { color: #58a6ff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .results { margin-top: 30px; border-top: 1px solid #444c56; padding-top: 20px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header h1 i {
+            color: #667eea;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .success-badge {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(0, 184, 148, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .success-badge i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00b894;
+            display: block;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .report-icon { background: linear-gradient(45deg, #3498db, #2980b9); }
+        .log-icon { background: linear-gradient(45deg, #f1c40f, #f39c12); }
+        .github-icon { background: linear-gradient(45deg, #2d3436, #636e72); }
+        .selenium-icon { background: linear-gradient(45deg, #27ae60, #2ecc71); }
+        .course-icon { background: linear-gradient(45deg, #a29bfe, #6c5ce7); }
+
+        .card h3 {
+            color: #2c3e50;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: auto;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .features {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .features h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .automated-icon {
+            background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+        }
+
+        .robot-icon {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+        }
+
+        .ci-icon {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+        }
+
+        .quality-icon {
+            background: linear-gradient(45deg, #00b894, #55a3ff);
+        }
+
+        .feature h4 {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            color: #7f8c8d;
+            line-height: 1.5;
+        }
+
+        .test-details-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-details-section h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .test-suite {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            margin-bottom: 20px;
+        }
+
+        .suite-name {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .test-case {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            background: #e9ecef;
+            margin-bottom: 8px;
+            color: #34495e;
+        }
+
+        .test-case i {
+            color: #27ae60;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .footer {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: left;
+        }
+
+        .modal-content h3 {
+            display: flex;
+            align-items: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .modal-content h3 i {
+            margin-right: 15px;
+            color: #6c5ce7;
+        }
+        
+        .modal-content > p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        /* Estilos para o info-box do modal */
+        .info-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box h4 {
+            display: flex;
+            align-items: center;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .info-box h4 i {
+            margin-right: 10px;
+            color: #2c3e50;
+        }
+        
+        .info-box ul {
+            padding-left: 5px;
+            list-style-type: none;
+            color: #7f8c8d;
+        }
+
+        .info-box ul li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        /* Estilos para o contact-box do modal */
+        .contact-box {
+            background-color: #e6f7f2;
+            border-left: 4px solid #00b894;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .contact-box i {
+            margin-right: 10px;
+            color: #00b894;
+            font-size: 1.2rem;
+        }
+
+        .modal-content .btn-close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            background: #6c5ce7;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 auto;
+        }
+
+        .modal-content .btn-close:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🚀 Deploy Realizado com Sucesso!</h1>
-        <p>Este site foi publicado automaticamente pelo GitHub Actions.</p>
-        
-        <div class="results">
-            <h2>Resultados dos Testes</h2>
-            <p>
-                <a href="./report.html">Ver Relatório (Report)</a> |
-                <a href="./log.html">Ver Log Detalhado</a>
+        <header class="header">
+            <h1><i class="fas fa-desktop"></i> QA.Coders T14</h1>
+            <p class="subtitle">Testes Automatizados de Frontend com Robot Framework & Selenium</p>
+            <div class="success-badge">
+                <i class="fas fa-check-circle"></i>
+                100% de Aprovação!
+            </div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Total de Testes</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Testes Aprovados</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">Testes Falharam</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">31s</span>
+                    <span class="stat-label">Tempo Total</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon report-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Relatório Detalhado</h3>
+                </div>
+                <p>Visualize o relatório completo com gráficos e resultados de todos os testes de interface executados.</p>
+                <a href="https://elifasmartinszaireandrade.github.io/Testes-de-frontend-com-Robot-supernatural-academyt14-front-robot/report.html" class="btn" target="_blank">
+                    <i class="fas fa-arrow-right"></i> Ver Report
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon log-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Log de Execução</h3>
+                </div>
+                <p>Acesse o log técnico com o passo a passo da execução, comandos do Selenium e timestamps detalhados.</p>
+                <a href="https://elifasmartinszaireandrade.github.io/Testes-de-frontend-com-Robot-supernatural-academyt14-front-robot/log.html" class="btn" target="_blank">
+                    <i class="fas fa-arrow-right"></i> Ver Log
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon github-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3>Repositório GitHub</h3>
+                </div>
+                <p>Explore o repositório com os scripts, seletores (locators), keywords e a configuração do CI/CD via GitHub Actions.</p>
+                <a href="https://github.com/elifasmartinszaireandrade/Testes-de-frontend-com-Robot-supernatural-academyt14-front-robot" class="btn" target="_blank">
+                    <i class="fas fa-arrow-up-right-from-square"></i> Ver Repositório
+                </a>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon course-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Curso QA.Coders</h3>
+                </div>
+                <p>Projeto desenvolvido durante o curso QA.Coders Turma 14, focado em automação de testes de Frontend.</p>
+                <a href="#" class="btn" onclick="showCourseInfo(); return false;">
+                    <i class="fas fa-book"></i>
+                    Sobre o Curso
+                </a>
+            </div>
+        </div>
+
+        <div class="features">
+            <h2><i class="fas fa-star"></i> Características do Projeto</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon automated-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h4>Testes Automatizados</h4>
+                    <p>Execução automática de testes de Frontend via GitHub Actions com relatórios detalhados.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon robot-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h4>Robot Framework</h4>
+                    <p>Utilização do framework de automação para escrita de testes de forma intuitiva e keyword-driven.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon ci-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h4>CI/CD Pipeline</h4>
+                    <p>Integração contínua configurada para execução automática dos testes em cada push.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon quality-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Garantia de Qualidade</h4>
+                    <p>Validações rigorosas para garantir a qualidade da interface e experiência do usuário.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p><i class="fas fa-robot"></i> Desenvolvido por Elifa Martins - QA.Coders T14</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
+                <i class="fas fa-calendar-alt"></i> Última atualização: <span id="lastUpdate"></span>
             </p>
+        </footer>
+    </div>
+
+    <div id="courseModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-graduation-cap"></i> QA.Coders Academy - Turma 14</h3>
+            <p>
+                A QA.Coders Academy é uma consultoria em Qualidade que forma profissionais na área de Quality Assurance e Quality Engineering de maneira democrática e acessível. Com mais de 4.000 profissionais formados em 3 anos de atuação, 44% dos estudantes alcançaram transição de carreira.
+            </p>
+            
+            <div class="info-box">
+                <h4><i class="fas fa-list-check"></i> Trilha Quality Assurance</h4>
+                <ul>
+                    <li><strong>Metodologia Ágil:</strong> Práticas modernas do mercado</li>
+                    <li><strong>Alta Performance:</strong> Treinamento focado em resultados</li>
+                    <li><strong>Modelo Híbrido:</strong> Encontros semanais + aulas gravadas</li>
+                    <li><strong>Programa Academy:</strong> 6 sprints em ambiente simulado</li>
+                </ul>
+            </div>
+
+            <div class="contact-box">
+                <i class="fas fa-envelope"></i>
+                <span>Contato: contato@qacoders-treinamento.com</span>
+            </div>
+
+            <button class="btn-close" onclick="closeCourseModal()">
+                <i class="fas fa-times"></i> Fechar
+            </button>
         </div>
     </div>
+
+    <script>
+        document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('pt-BR');
+
+        function showCourseInfo() {
+            document.getElementById('courseModal').style.display = 'flex';
+        }
+
+        function closeCourseModal() {
+            document.getElementById('courseModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const courseModal = document.getElementById('courseModal');
+            if (event.target === courseModal) {
+                courseModal.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
